@@ -253,8 +253,8 @@ type UserID struct {
 }
 
 type GetMessageHistoryResponse struct {
-	Code    int          `json:"code"`
-	Message string       `json:"message"`
+	Code    int                    `json:"code"`
+	Message string                 `json:"message"`
 	Data    *GetMessageHistoryBody `json:"data"`
 }
 
@@ -381,4 +381,16 @@ type CardURL struct {
 
 type CardSplitLine struct {
 	Tag string `json:"tag"`
+}
+
+/*
+	Jenkins Event
+*/
+type ReceiveJenkinsEvent struct {
+	Header Header       `json:"header"`
+	Event  JenkinsEvent `json:"event"`
+}
+
+type JenkinsEvent struct {
+	Message Message `json:"message"`
 }
