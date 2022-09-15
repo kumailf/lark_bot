@@ -53,6 +53,7 @@ func ReceiveEvent(c *gin.Context) {
 	} else {
 		logrus.Infof("without encrypt")
 		decryptStr = string(bytes)
+		logrus.Infof("decrypt event: %v", decryptStr)
 	}
 
 	event := &Event{}
