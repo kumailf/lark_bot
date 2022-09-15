@@ -6,10 +6,10 @@ package biz
 type Header struct {
 	EventID    string `json:"event_id"`
 	EventType  string `json:"event_type"`
-	CreateTime string `json:"create_time",omitempty`
-	Token      string `json:"token",omitempty`
-	AppID      string `json:"app_id",omitempty`
-	TenantKey  string `json:"tenant_key",omitempty`
+	CreateTime string `json:"create_time,omitempty"`
+	Token      string `json:"token,omitempty"`
+	AppID      string `json:"app_id,omitempty"`
+	TenantKey  string `json:"tenant_key,omitempty"`
 }
 
 type Response struct {
