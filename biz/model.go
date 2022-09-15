@@ -231,11 +231,6 @@ type Message struct {
 	Mentions    []*Mention `json:"mentions,omitempty"`
 }
 
-type JenkinsMessage struct {
-	MessageType string        `json:"message_type"`
-	Content     []interface{} `json:"content"`
-}
-
 type Mention struct {
 	Key       string  `json:"key,omitempty"`
 	ID        *UserID `json:"id,omitempty"`
@@ -397,5 +392,5 @@ type ReceiveJenkinsEvent struct {
 }
 
 type JenkinsEvent struct {
-	Message JenkinsMessage `json:"message"`
+	Message Message `json:"message"`
 }
