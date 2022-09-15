@@ -27,11 +27,11 @@ func ReceiveEvent(c *gin.Context) {
 		logrus.WithError(err).Errorf("failed to read request")
 		return
 	}
-	err = json.Unmarshal(bytes, req)
-	if err != nil {
-		logrus.Infof("without encrypt")
-		decryptStr = string(bytes)
-	} else {
+	if strings.Contains(string(bytes), "encrypt") {
+		err = json.Unmarshal(bytes, req)
+		if err != nil {
+			logrus.Errorf("Unmarshal failed")
+		}
 		decryptStr, err = Decrypt(req.Encrypt, conf.Conf.EncryptKey)
 		if err != nil {
 			logrus.WithError(err).Errorf("decrypt error")
@@ -50,6 +50,9 @@ func ReceiveEvent(c *gin.Context) {
 			})
 			return
 		}
+	} else {
+		logrus.Infof("without encrypt")
+		decryptStr = string(bytes)
 	}
 
 	event := &Event{}
