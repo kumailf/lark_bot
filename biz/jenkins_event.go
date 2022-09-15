@@ -8,7 +8,6 @@ import (
 
 func HandleReceiveJenkinsEvent(ctx context.Context, event *ReceiveJenkinsEvent) error {
 	msg := event.Event.Message
-	chatID := msg.ChatID
 	content := msg.Content
 	token, err := GetTenantAccessToken(ctx)
 	if err != nil {
