@@ -18,8 +18,10 @@ import (
 )
 
 func ReceiveEvent(c *gin.Context) {
+
 	// get token and reply challenge
 	var req = &ReceiveEventEncrypt{}
+	var decryptStr string
 	bytes, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		logrus.WithError(err).Errorf("failed to read request")
@@ -27,29 +29,29 @@ func ReceiveEvent(c *gin.Context) {
 	}
 	err = json.Unmarshal(bytes, req)
 	if err != nil {
-		logrus.WithError(err).Errorf("unmarshal failed")
-		return
-	}
-	decryptStr, err := Decrypt(req.Encrypt, conf.Conf.EncryptKey)
-	if err != nil {
-		logrus.WithError(err).Errorf("decrypt error")
-		return
-	}
-	logrus.Infof("decrypt event: %v", decryptStr)
-	decryptToken := &DecryptToken{}
-	err = json.Unmarshal([]byte(decryptStr), decryptToken)
-	if err != nil {
-		logrus.Errorf("Unmarshal failed again")
-		return
-	}
-	if decryptToken.Challenge != "" {
-		c.JSON(200, gin.H{
-			"challenge": decryptToken.Challenge,
-		})
-		return
+		logrus.Infof("without encrypt")
+		decryptStr = string(bytes)
+	} else {
+		decryptStr, err = Decrypt(req.Encrypt, conf.Conf.EncryptKey)
+		if err != nil {
+			logrus.WithError(err).Errorf("decrypt error")
+			return
+		}
+		logrus.Infof("decrypt event: %v", decryptStr)
+		decryptToken := &DecryptToken{}
+		err = json.Unmarshal([]byte(decryptStr), decryptToken)
+		if err != nil {
+			logrus.Errorf("Unmarshal failed again")
+			return
+		}
+		if decryptToken.Challenge != "" {
+			c.JSON(200, gin.H{
+				"challenge": decryptToken.Challenge,
+			})
+			return
+		}
 	}
 
-	
 	event := &Event{}
 	err = json.Unmarshal([]byte(decryptStr), event)
 	if err != nil {
@@ -71,6 +73,19 @@ func ReceiveEvent(c *gin.Context) {
 		}
 		go func() {
 			err = HandleReceiveMessageEvent(ctx, receiveMsgEvent)
+			if err != nil {
+				logrus.WithError(err).Errorf("handle receive message event failed")
+			}
+		}()
+	case "jenkins":
+		receiveJenkinsEvent := &ReceiveJenkinsEvent{}
+		err = json.Unmarshal([]byte(decryptStr), receiveJenkinsEvent)
+		if err != nil {
+			logrus.Errorf("Unmarshal failed, maybe Challenge")
+			return
+		}
+		go func() {
+			err = HandleReceiveJenkinsEvent(ctx, receiveJenkinsEvent)
 			if err != nil {
 				logrus.WithError(err).Errorf("handle receive message event failed")
 			}

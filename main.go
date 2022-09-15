@@ -9,7 +9,7 @@ import (
 func main() {
 	r := gin.Default()
 
-	post := GetPostRouter()
+	post := GetPostRouter() 
 	for k, v := range post {
 		r.POST(k, v)
 	}
