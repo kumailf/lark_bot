@@ -220,12 +220,12 @@ type Sender struct {
 }
 
 type Message struct {
-	MessageID   string     `json:"message_id"`
-	RootID      string     `json:"root_id"`
-	ParentID    string     `json:"parent_id"`
-	CreateTime  string     `json:"create_time"`
-	ChatID      string     `json:"chat_id"`
-	ChatType    string     `json:"chat_type"`
+	MessageID   string     `json:"message_id,omitempty"`
+	RootID      string     `json:"root_id,omitempty"`
+	ParentID    string     `json:"parent_id,omitempty"`
+	CreateTime  string     `json:"create_time,omitempty"`
+	ChatID      string     `json:"chat_id,omitempty"`
+	ChatType    string     `json:"chat_type,omitempty"`
 	MessageType string     `json:"message_type"`
 	Content     string     `json:"content"`
 	Mentions    []*Mention `json:"mentions,omitempty"`
