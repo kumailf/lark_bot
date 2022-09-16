@@ -62,7 +62,7 @@ func GetGroupID(groupname string) (string, error) {
 		logrus.WithError(err).Errorf("failed to get tenant access token")
 		return "", nil
 	}
-	url := "https://open.feishu.cn/open-apis/im/v1/chats?page_size=20&user_id_type=user_id"
+	url := "https://open.feishu.cn/open-apis/im/v1/chats?page_size=20"
 	method := "GET"
 	client := &http.Client{}
 	req, err := http.NewRequest(method, url, nil)
