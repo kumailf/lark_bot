@@ -80,12 +80,13 @@ func GetGroupID(groupname string) (string, error) {
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
+		logrus.WithError(err).Errorf("failed to get group info")
 		return "", nil
 	}
 	getGroupInfoResp := &GetGroupInfoResp{}
 	err = json.Unmarshal(body, getGroupInfoResp)
 	if err != nil {
+		logrus.WithError(err).Errorf("failed to unmarshal")
 		return "", err
 	}
 	groupInfo := getGroupInfoResp.Data.Items
@@ -94,5 +95,6 @@ func GetGroupID(groupname string) (string, error) {
 			return v.ChatID, nil
 		}
 	}
+	logrus.Infof("can not find group")
 	return "", nil
 }
