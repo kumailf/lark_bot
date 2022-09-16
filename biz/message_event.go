@@ -37,6 +37,7 @@ func HandleReceiveMessageEvent(ctx context.Context, event *ReceiveMessageEvent) 
 				"食堂",
 				"麦当劳",
 				"AI palaza",
+				"便利店",
 				"不吃",
 			}
 			rand.Seed(time.Now().UnixNano())
