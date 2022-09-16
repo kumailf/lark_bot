@@ -9,6 +9,10 @@ import (
 func HandleReceiveJenkinsEvent(ctx context.Context, event *ReceiveJenkinsEvent) error {
 	msg := event.Event.Message
 	content := msg.Content
+	receiveID, err := GetGroupID(event.GroupName)
+	if err != nil {
+		logrus.WithError(err).Errorf("failed to get group id")
+	}
 	token, err := GetTenantAccessToken(ctx)
 	if err != nil {
 		logrus.WithError(err).Errorf("failed to get tenant access token")
@@ -17,7 +21,7 @@ func HandleReceiveJenkinsEvent(ctx context.Context, event *ReceiveJenkinsEvent) 
 	switch msg.MessageType {
 	case "interactive":
 		createMsgRequest := &CreateMessageRequest{
-			ReceiveID: "oc_ab9c97a52c8baebc1110c6bb3a449bdc",
+			ReceiveID: receiveID,
 			Content:   content,
 			MsgType:   "interactive",
 		}
