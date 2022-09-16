@@ -19,19 +19,7 @@ func HandleReceiveMessageEvent(ctx context.Context, event *ReceiveMessageEvent) 
 	}
 	switch msg.MessageType {
 	case "text":
-		if strings.Contains(msg.Content, "/solve") {
-			createMsgRequest := &CreateMessageRequest{
-				ReceiveID: chatID,
-				Content:   "{\"text\":\"开发中 \\n\"}",
-				MsgType:   "text",
-			}
-			resp, err := SendMessage(ctx, token, createMsgRequest)
-			if err != nil {
-				logrus.WithError(err).Errorf("failed to send msg")
-				return err
-			}
-			logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
-		}
+		content := ""
 		if strings.Contains(msg.Content, "吃") {
 			var eatList = [...]string{
 				"食堂",
@@ -42,32 +30,22 @@ func HandleReceiveMessageEvent(ctx context.Context, event *ReceiveMessageEvent) 
 			}
 			rand.Seed(time.Now().UnixNano())
 			eat := eatList[rand.Intn(4)]
-			createMsgRequest := &CreateMessageRequest{
-				ReceiveID: chatID,
-				Content:   "{\"text\":\"" + eat + "\\n\"}",
-				MsgType:   "text",
-			}
-			resp, err := SendMessage(ctx, token, createMsgRequest)
-			if err != nil {
-				logrus.WithError(err).Errorf("failed to send msg")
-				return err
-			}
-			logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
+			content = "{\"text\":\"" + eat + "\\n\"}"
+		} else {
+			content = "{\"text\":\"开发中 \\n\"}"
 		}
-	case "post":
-		if strings.Contains(msg.Content, "/solve") {
-			createMsgRequest := &CreateMessageRequest{
-				ReceiveID: chatID,
-				Content:   "{\"text\":\"开发中 \\n\"}",
-				MsgType:   "text",
-			}
-			resp, err := SendMessage(ctx, token, createMsgRequest)
-			if err != nil {
-				logrus.WithError(err).Errorf("failed to send msg")
-				return err
-			}
-			logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
+		createMsgRequest := &CreateMessageRequest{
+			ReceiveID: chatID,
+			Content:   content,
+			MsgType:   "text",
 		}
+		resp, err := SendMessage(ctx, token, createMsgRequest)
+		if err != nil {
+			logrus.WithError(err).Errorf("failed to send msg")
+			return err
+		}
+		logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
+
 	default:
 		logrus.Infof("unhandled message type, msg_type: %v", msg.MessageType)
 	}
