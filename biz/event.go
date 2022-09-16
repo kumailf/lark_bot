@@ -101,7 +101,6 @@ func ReceiveEvent(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message": "ok",
 	})
-	return
 }
 
 func Decrypt(encrypt string, key string) (string, error) {

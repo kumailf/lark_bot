@@ -389,7 +389,7 @@ type CardSplitLine struct {
 type ReceiveJenkinsEvent struct {
 	Header    Header       `json:"header"`
 	Event     JenkinsEvent `json:"event"`
-	GroupName string       `json:groupname,omitempty`
+	GroupName string       `json:"groupname,omitempty"`
 }
 
 type JenkinsEvent struct {
@@ -400,23 +400,23 @@ type JenkinsEvent struct {
 	GroupInfo
 */
 type GetGroupInfoResp struct {
-	Code int16         `json:code`
-	Data GroupInfoData `json:data`
-	Msg  string        `json:msg`
+	Code int16         `json:"code"`
+	Data GroupInfoData `json:"data"`
+	Msg  string        `json:"msg"`
 }
 
 type GroupInfoData struct {
-	HasMore   bool        `json:has_more`
-	Items     []GroupInfo `json:items`
-	PageToken string      `json:page_token`
+	HasMore   bool        `json:"has_more"`
+	Items     []GroupInfo `json:"items"`
+	PageToken string      `json:"page_token"`
 }
 
 type GroupInfo struct {
-	Avatar      string `json:avatar`
-	ChatID      string `json:chat_id`
-	Description string `json:description,omitempty`
-	External    bool   `json:external,omitempty`
-	Name        string `json:name`
+	Avatar      string `json:"avatar"`
+	ChatID      string `json:"chat_id"`
+	Description string `json:"description,omitempty"`
+	External    bool   `json:"external,omitempty"`
+	Name        string `json:"name"`
 	OwnerId     string `json:"owner_id,omitempty"`
 	OwnerIdType string `json:"owner_id_type,omitempty"`
 }
