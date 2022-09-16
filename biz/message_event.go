@@ -2,7 +2,9 @@ package biz
 
 import (
 	"context"
+	"math/rand"
 	"strings"
+	"time"
 
 	"github.com/sirupsen/logrus"
 )
@@ -21,6 +23,27 @@ func HandleReceiveMessageEvent(ctx context.Context, event *ReceiveMessageEvent) 
 			createMsgRequest := &CreateMessageRequest{
 				ReceiveID: chatID,
 				Content:   "{\"text\":\"开发中 \\n\"}",
+				MsgType:   "text",
+			}
+			resp, err := SendMessage(ctx, token, createMsgRequest)
+			if err != nil {
+				logrus.WithError(err).Errorf("failed to send msg")
+				return err
+			}
+			logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
+		}
+		if strings.Contains(msg.Content, "吃") {
+			var eatList = [...]string{
+				"食堂",
+				"麦当劳",
+				"AI palaza",
+				"不吃",
+			}
+			rand.Seed(time.Now().UnixNano())
+			eat := eatList[rand.Intn(4)]
+			createMsgRequest := &CreateMessageRequest{
+				ReceiveID: chatID,
+				Content:   "{\"text\":\"" + eat + "\\n\"}",
 				MsgType:   "text",
 			}
 			resp, err := SendMessage(ctx, token, createMsgRequest)
