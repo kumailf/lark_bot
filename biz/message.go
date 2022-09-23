@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -104,7 +103,7 @@ func SendMessage(ctx context.Context, token string, createReq *CreateMessageRequ
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		logrus.WithError(err).Error("read body failed")
 		return nil, err
@@ -351,7 +350,7 @@ func UploadImage(ctx context.Context, token string) (*UploadImageResponseBody, e
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		logrus.WithError(err).Error("read body failed")
 		return nil, err
@@ -467,7 +466,7 @@ func GetChatMessageHistory(ctx context.Context, token, chatID string, start, end
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		logrus.WithError(err).Error("read body failed")
 		return nil, err

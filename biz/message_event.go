@@ -3,6 +3,8 @@ package biz
 import (
 	"context"
 	"math/rand"
+
+	"regexp"
 	"strings"
 	"time"
 
@@ -24,15 +26,29 @@ func HandleReceiveMessageEvent(ctx context.Context, event *ReceiveMessageEvent) 
 			var eatList = [...]string{
 				"食堂",
 				"麦当劳",
-				"AI palaza",
+				"AI plaza",
 				"便利店",
+				"外卖",
 				"不吃",
 			}
 			rand.Seed(time.Now().UnixNano())
 			eat := eatList[rand.Intn(4)]
-			content = "{\"text\":\"" + eat + "\\n\"}"
+			content = "{\"text\":\"" + eat + "\"}"
+		} else if strings.Contains(msg.Content, "jenkins") {
+			re := regexp.MustCompile(`^{"text":"@_user_1 jenkins (.*?)"}$`)
+			match := re.FindStringSubmatch(msg.Content)
+			if len(match) != 0 {
+				data := match[1]
+				SendToMQ(data, "jenkins")
+				logrus.Infof("send to mq susscss")
+				content = "{\"text\":\"ok\"}"
+			} else {
+				content = "{\"text\":\"输入格式错误\"}"
+
+			}
+
 		} else {
-			content = "{\"text\":\"开发中 \\n\"}"
+			content = "{\"text\":\"开发中\"}"
 		}
 		createMsgRequest := &CreateMessageRequest{
 			ReceiveID: chatID,

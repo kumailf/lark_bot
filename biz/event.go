@@ -9,7 +9,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"strings"
 
 	"code.byted.org/larkim/oapi_demo/conf"
@@ -22,7 +22,7 @@ func ReceiveEvent(c *gin.Context) {
 	// get token and reply challenge
 	var req = &ReceiveEventEncrypt{}
 	var decryptStr string
-	bytes, err := ioutil.ReadAll(c.Request.Body)
+	bytes, err := io.ReadAll(c.Request.Body)
 	if err != nil {
 		logrus.WithError(err).Errorf("failed to read request")
 		return
@@ -59,7 +59,7 @@ func ReceiveEvent(c *gin.Context) {
 	event := &Event{}
 	err = json.Unmarshal([]byte(decryptStr), event)
 	if err != nil {
-		logrus.Errorf("Unmarshal failed, maybe Challenge")
+		logrus.Errorf("Unmarshal failed")
 		return
 	}
 	logrus.Infof("receive event, event: %v", event)
@@ -81,11 +81,14 @@ func ReceiveEvent(c *gin.Context) {
 				logrus.WithError(err).Errorf("handle receive message event failed")
 			}
 		}()
+		c.JSON(200, gin.H{
+			"message": "ok",
+		})
 	case "jenkins":
 		receiveJenkinsEvent := &ReceiveJenkinsEvent{}
 		err = json.Unmarshal([]byte(decryptStr), receiveJenkinsEvent)
 		if err != nil {
-			logrus.Errorf("Unmarshal failed, maybe Challenge")
+			logrus.Errorf("Unmarshal failed")
 			return
 		}
 		go func() {
@@ -94,13 +97,34 @@ func ReceiveEvent(c *gin.Context) {
 				logrus.WithError(err).Errorf("handle receive message event failed")
 			}
 		}()
+		c.JSON(200, gin.H{
+			"message": "ok",
+		})
+	case "MQ":
+		receiveMQEvent := &ReceiveMQEvent{}
+		err = json.Unmarshal([]byte(decryptStr), receiveMQEvent)
+		if err != nil {
+			logrus.Errorf("Unmarshal receiveMQEvent failed")
+			return
+		}
+
+		data, err := HandleReceiveMQEvent(ctx, receiveMQEvent)
+		if err != nil {
+			logrus.WithError(err).Errorf("handle receive message event failed")
+		}
+
+		logrus.Infof("data out = %v", data)
+		c.JSON(200, gin.H{
+			"message": "ok",
+			"data":    data,
+		})
 	default:
 		logrus.Info("unhandled event")
+		c.JSON(200, gin.H{
+			"message": "error",
+		})
 	}
 
-	c.JSON(200, gin.H{
-		"message": "ok",
-	})
 }
 
 func Decrypt(encrypt string, key string) (string, error) {

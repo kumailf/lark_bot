@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 
@@ -97,7 +97,7 @@ func createChatV1(ctx context.Context, token string, createChatRequest *CreateCh
 		return nil, fmt.Errorf("create chat failed, err=%v", err)
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		logrus.WithError(err).Error("read body failed")
 		return nil, err
@@ -156,7 +156,7 @@ func chatMembersInvite(ctx context.Context, token string, chatID string, inviteR
 	}
 
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		logrus.WithError(err).Error("read body failed")
 		return nil, err
@@ -210,7 +210,7 @@ func UpdateChat(ctx context.Context, token, chatID string, updateChatReq *Update
 	}
 	logID = resp.Header.Get("x-tt-logid")
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		logrus.WithError(err).Error("read body failed")
 		return nil, err
@@ -260,7 +260,7 @@ func GetChatInfo(ctx context.Context, token, chatID string) (*GetChatInfoRespons
 	}
 	logID = resp.Header.Get("x-tt-logid")
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		logrus.WithError(err).Error("read body failed")
 		return nil, err

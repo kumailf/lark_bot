@@ -1,7 +1,7 @@
 package biz
 
 /*
-	General Model
+General Model
 */
 type Header struct {
 	EventID    string `json:"event_id"`
@@ -197,7 +197,7 @@ type DecryptToken struct {
 }
 
 type Event struct {
-	Schema string      `json:"schema"`
+	Schema string      `json:"schema,omitempty"`
 	Header Header      `json:"header"`
 	Event  interface{} `json:"event"`
 }
@@ -290,7 +290,7 @@ type UploadImageResponseBody struct {
 }
 
 /*
-	Message card
+Message card
 */
 type CardContent struct {
 	Config   *CardConfig   `json:"config,omitempty"`
@@ -384,7 +384,7 @@ type CardSplitLine struct {
 }
 
 /*
-	Jenkins Event
+Jenkins Event
 */
 type ReceiveJenkinsEvent struct {
 	Header    Header       `json:"header"`
@@ -397,7 +397,21 @@ type JenkinsEvent struct {
 }
 
 /*
-	GroupInfo
+MQ Message
+*/
+type ReceiveMQEvent struct {
+	Header Header  `json:"header"`
+	Event  MQEvent `json:"event"`
+}
+
+type MQEvent struct {
+	Ops    string `json:"ops"`
+	MQType string `json:"mq_type"`
+	Data   string `json:"data,omitempty"`
+}
+
+/*
+GroupInfo
 */
 type GetGroupInfoResp struct {
 	Code int16         `json:"code"`
