@@ -4,7 +4,7 @@ package biz
 General Model
 */
 type Header struct {
-	EventID    string `json:"event_id"`
+	EventID    string `json:"event_id,omitempty"`
 	EventType  string `json:"event_type"`
 	CreateTime string `json:"create_time,omitempty"`
 	Token      string `json:"token,omitempty"`
@@ -433,4 +433,17 @@ type GroupInfo struct {
 	Name        string `json:"name"`
 	OwnerId     string `json:"owner_id,omitempty"`
 	OwnerIdType string `json:"owner_id_type,omitempty"`
+}
+
+/*
+Github bot Event
+*/
+type ReceiveGithubEvent struct {
+	Header Header `json:"header"`
+	Event GithubEvent `json:"event"`
+	GroupName string       `json:"groupname,omitempty"`
+}
+
+type GithubEvent struct {
+	Message Message `json:"message"`
 }
