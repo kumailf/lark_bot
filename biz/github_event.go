@@ -3,14 +3,21 @@ package biz
 import (
 	"context"
 
-	"code.byted.org/larkim/oapi_demo/conf"
+	"strings"
 
+	"code.byted.org/larkim/oapi_demo/conf"
 	"github.com/sirupsen/logrus"
 )
 
 func HandleReceiveGithubEvent(ctx context.Context, event *ReceiveGithubEvent) error {
 	msg := event.Event.Message
 	content := msg.Content
+	if strings.Contains(content, "mm-assistant[bot]") {
+		return nil
+	}
+	if strings.Contains(content, "Comment") {
+		return nil
+	}
 	groupName, ok := conf.GroupMap[event.GroupName]
 	if !ok {
 		groupName = "机器人调试"
@@ -42,7 +49,7 @@ func HandleReceiveGithubEvent(ctx context.Context, event *ReceiveGithubEvent) er
 		createMsgRequest := &CreateMessageRequest{
 			ReceiveID: receiveID,
 			Content:   content,
-			MsgType:   "interactive",
+			MsgType:   "text",
 		}
 		resp, err := SendMessage(ctx, token, createMsgRequest)
 		if err != nil {

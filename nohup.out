@@ -1,0 +1,54 @@
+6593:C 26 Oct 2022 16:52:37.085 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+6593:C 26 Oct 2022 16:52:37.085 # Redis version=7.0.5, bits=64, commit=00000000, modified=0, pid=6593, just started
+6593:C 26 Oct 2022 16:52:37.085 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+6593:M 26 Oct 2022 16:52:37.085 * monotonic clock: POSIX clock_gettime
+6593:M 26 Oct 2022 16:52:37.086 * Running mode=standalone, port=6379.
+6593:M 26 Oct 2022 16:52:37.086 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+6593:M 26 Oct 2022 16:52:37.086 # Server initialized
+6593:M 26 Oct 2022 16:52:37.086 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+6593:M 26 Oct 2022 16:52:37.086 * Loading RDB produced by version 7.0.5
+6593:M 26 Oct 2022 16:52:37.086 * RDB age 14 seconds
+6593:M 26 Oct 2022 16:52:37.086 * RDB memory usage when created 0.90 Mb
+6593:M 26 Oct 2022 16:52:37.086 * Done loading RDB, keys loaded: 0, keys expired: 0.
+6593:M 26 Oct 2022 16:52:37.086 * DB loaded from disk: 0.000 seconds
+6593:M 26 Oct 2022 16:52:37.086 * Ready to accept connections
+6593:M 26 Oct 2022 17:52:38.078 * 1 changes in 3600 seconds. Saving...
+6593:M 26 Oct 2022 17:52:38.079 * Background saving started by pid 6792
+6792:C 26 Oct 2022 17:52:38.082 * DB saved on disk
+6792:C 26 Oct 2022 17:52:38.083 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+6593:M 26 Oct 2022 17:52:38.179 * Background saving terminated with success
+6593:M 26 Oct 2022 18:52:39.091 * 1 changes in 3600 seconds. Saving...
+6593:M 26 Oct 2022 18:52:39.092 * Background saving started by pid 10386
+10386:C 26 Oct 2022 18:52:39.095 * DB saved on disk
+10386:C 26 Oct 2022 18:52:39.095 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+6593:M 26 Oct 2022 18:52:39.192 * Background saving terminated with success
+6593:M 27 Oct 2022 10:27:38.571 * 1 changes in 3600 seconds. Saving...
+6593:M 27 Oct 2022 10:27:38.572 * Background saving started by pid 11508
+11508:C 27 Oct 2022 10:27:38.575 * DB saved on disk
+11508:C 27 Oct 2022 10:27:38.576 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+6593:M 27 Oct 2022 10:27:38.672 * Background saving terminated with success
+6593:M 27 Oct 2022 11:27:39.088 * 1 changes in 3600 seconds. Saving...
+6593:M 27 Oct 2022 11:27:39.089 * Background saving started by pid 11563
+11563:C 27 Oct 2022 11:27:39.092 * DB saved on disk
+11563:C 27 Oct 2022 11:27:39.092 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+6593:M 27 Oct 2022 11:27:39.189 * Background saving terminated with success
+6593:M 27 Oct 2022 12:27:40.007 * 1 changes in 3600 seconds. Saving...
+6593:M 27 Oct 2022 12:27:40.008 * Background saving started by pid 11795
+11795:C 27 Oct 2022 12:27:40.011 * DB saved on disk
+11795:C 27 Oct 2022 12:27:40.011 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+6593:M 27 Oct 2022 12:27:40.108 * Background saving terminated with success
+6593:M 27 Oct 2022 13:30:06.768 * 1 changes in 3600 seconds. Saving...
+6593:M 27 Oct 2022 13:30:06.768 * Background saving started by pid 11837
+11837:C 27 Oct 2022 13:30:06.772 * DB saved on disk
+11837:C 27 Oct 2022 13:30:06.773 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+6593:M 27 Oct 2022 13:30:06.869 * Background saving terminated with success
+6593:M 27 Oct 2022 14:30:07.077 * 1 changes in 3600 seconds. Saving...
+6593:M 27 Oct 2022 14:30:07.084 * Background saving started by pid 16218
+16218:C 27 Oct 2022 14:30:07.089 * DB saved on disk
+16218:C 27 Oct 2022 14:30:07.090 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+6593:M 27 Oct 2022 14:30:07.185 * Background saving terminated with success
+6593:M 27 Oct 2022 15:30:08.072 * 1 changes in 3600 seconds. Saving...
+6593:M 27 Oct 2022 15:30:08.072 * Background saving started by pid 18132
+18132:C 27 Oct 2022 15:30:08.075 * DB saved on disk
+18132:C 27 Oct 2022 15:30:08.076 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+6593:M 27 Oct 2022 15:30:08.172 * Background saving terminated with success

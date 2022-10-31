@@ -134,6 +134,22 @@ func ReceiveEvent(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "ok",
 		})
+	case "sendMessage":
+		receiveSendMessageEvent := &ReceiveSendMessageEvent{}
+		err = json.Unmarshal([]byte(decryptStr), receiveSendMessageEvent)
+		if err != nil {
+			logrus.Errorf("Unmarshal failed")
+			return
+		}
+		go func() {
+			err = HandleReceiveSendMessageEvent(ctx, receiveSendMessageEvent)
+			if err != nil {
+				logrus.WithError(err).Errorf("handle receive message event failed")
+			}
+		}()
+		c.JSON(200, gin.H{
+			"message": "ok",
+		})
 	default:
 		logrus.Info("unhandled event")
 		c.JSON(200, gin.H{

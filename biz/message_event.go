@@ -48,7 +48,7 @@ func HandleReceiveMessageEvent(ctx context.Context, event *ReceiveMessageEvent) 
 			}
 
 		} else {
-			content = "{\"text\":\"开发中\"}"
+			return nil
 		}
 		createMsgRequest := &CreateMessageRequest{
 			ReceiveID: chatID,

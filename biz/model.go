@@ -439,11 +439,24 @@ type GroupInfo struct {
 Github bot Event
 */
 type ReceiveGithubEvent struct {
-	Header Header `json:"header"`
-	Event GithubEvent `json:"event"`
-	GroupName string       `json:"groupname,omitempty"`
+	Header    Header      `json:"header"`
+	Event     GithubEvent `json:"event"`
+	GroupName string      `json:"groupname,omitempty"`
 }
 
 type GithubEvent struct {
+	Message Message `json:"message"`
+}
+
+/*
+Send Message Event
+*/
+type ReceiveSendMessageEvent struct {
+	Header    Header           `json:"header"`
+	Event     SendMessageEvent `json:"event"`
+	GroupName string           `json:"groupname,omitempty"`
+}
+
+type SendMessageEvent struct {
 	Message Message `json:"message"`
 }
