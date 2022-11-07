@@ -93,6 +93,7 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 		}
 	}()
 
+	// Send Message To Lark Group
 	go func() {
 		eventType := pr.GetAction()
 		var content string
