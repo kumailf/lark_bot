@@ -80,7 +80,7 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 		if repo_fullname == "kumailf/MyPic" || repo_fullname == "open-mmlab/mmediting" {
 			token := ""
 			project_id := ""
-			node_id := event.Event.PullRequest.GetNodeID()
+			node_id := pr.PullRequest.GetNodeID()
 			if repo_fullname == "kumailf/MyPic" {
 				token = os.Getenv("token_MyPic")
 				project_id = os.Getenv("projectId_MyPic")
