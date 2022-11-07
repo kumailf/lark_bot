@@ -3,7 +3,10 @@ package biz
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"os"
+	"strings"
 
 	"code.byted.org/larkim/oapi_demo/conf"
 
@@ -29,7 +32,32 @@ func HandleReceiveGithubIssueEvent(ctx context.Context, event *ReceiveGithubIssu
 			token = os.Getenv("token_mmediting")
 			project_id = os.Getenv("projectId_mmediting")
 		}
-		_ = SetProject(token, project_id, node_id)
+		url := "https://api.github.com/graphql"
+		method := "POST"
+		data := fmt.Sprintf(`{"query":"mutation {addProjectV2ItemById(input: {projectId: \"%v\" contentId: \"%v\"}) {item {id}}}"}`, project_id, node_id)
+		payload := strings.NewReader(data)
+		client := &http.Client{}
+		req, err := http.NewRequest(method, url, payload)
+		if err != nil {
+			logrus.WithError(err).Errorf("failed to request")
+			return err
+		}
+		auth := fmt.Sprintf("bearer %v", token)
+		req.Header.Add("Authorization", auth)
+		req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+		res, err := client.Do(req)
+		if err != nil {
+			logrus.WithError(err).Errorf("failed to request")
+			return err
+		}
+		defer res.Body.Close()
+
+		body, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			logrus.WithError(err).Errorf("fail")
+			return err
+		}
+		logrus.Infof(string(body))
 	}
 	// Send Message To Lark Group
 
