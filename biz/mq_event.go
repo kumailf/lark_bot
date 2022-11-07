@@ -43,7 +43,6 @@ func ReceiveFromMQ(mqType string) string {
 	}
 	ret, err := rdb.LPop(ctx, mqType).Result()
 	if err != nil {
-		logrus.WithError(err).Errorf("get error")
 		return ""
 	}
 	return ret

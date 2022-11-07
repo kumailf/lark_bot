@@ -29,7 +29,7 @@ func HandleReceiveMessageEvent(ctx context.Context, event *ReceiveMessageEvent) 
 				"AI plaza",
 				"便利店",
 				"外卖",
-				"不吃",
+				"减肥,不吃",
 			}
 			rand.Seed(time.Now().UnixNano())
 			eat := eatList[rand.Intn(4)]
@@ -46,7 +46,7 @@ func HandleReceiveMessageEvent(ctx context.Context, event *ReceiveMessageEvent) 
 				content = "{\"text\":\"输入格式错误\"}"
 
 			}
-
+				
 		} else {
 			return nil
 		}

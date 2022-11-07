@@ -1,5 +1,7 @@
 package biz
 
+import ghclient "github.com/google/go-github/v41/github"
+
 /*
 General Model
 */
@@ -459,4 +461,22 @@ type ReceiveSendMessageEvent struct {
 
 type SendMessageEvent struct {
 	Message Message `json:"message"`
+}
+
+/*
+Github Event
+*/
+type ReceiveGithubRawEvent struct {
+	Header Header     `json:"header"`
+	Event  IssueEvent `json:"event"`
+}
+
+type ReceiveGithubIssueEvent struct {
+	Header Header     `json:"header"`
+	Event  IssueEvent `json:"event"`
+}
+
+type ReceiveGithubPREvent struct {
+	Header Header                    `json:"header"`
+	Event  ghclient.PullRequestEvent `json:"event"`
 }
