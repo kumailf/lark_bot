@@ -150,7 +150,7 @@ func ReceiveEvent(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "ok",
 		})
-	case "githubraw":
+	case "issue":
 		receiveGithubIssueEvent := &ReceiveGithubIssueEvent{}
 		err = json.Unmarshal([]byte(decryptStr), receiveGithubIssueEvent)
 		if err != nil {
