@@ -44,9 +44,9 @@ func HandleReceiveMessageEvent(ctx context.Context, event *ReceiveMessageEvent) 
 				content = "{\"text\":\"ok\"}"
 			} else {
 				content = "{\"text\":\"输入格式错误\"}"
-
 			}
-				
+		} else if strings.Contains(msg.Content, "/help") {
+			content = "{\"text\":\"**现已支持功能: \n**func1\n**func2 \"}"
 		} else {
 			return nil
 		}
