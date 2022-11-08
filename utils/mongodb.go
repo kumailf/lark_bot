@@ -10,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const uri = "mongodb://root:password@139.196.52.65:27017"
+const uri = "mongodb://root:password@127.0.0.1:27017"
 
 func MGDBFindOne(db string, collection string, key string, value string) map[string]interface{} {
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
@@ -76,4 +76,3 @@ func MGDBUpdateOne(db string, collection string, key string, value interface{}, 
 // 		pr_merged_notice: "off",
 //   }
 // )
-
