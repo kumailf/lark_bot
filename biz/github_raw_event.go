@@ -154,11 +154,11 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 			} else {
 				return
 			}
-		// case "review_requested":
-		// 	prTitle := pr.PullRequest.GetTitle()
-		// 	prUrl := pr.PullRequest.GetHTMLURL()
-		// 	prReviewer := pr.RequestedReviewer.GetLogin()
-		// 	content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Reviewer: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"PullRequest Requeste Reviewer\",\"tag\":\"plain_text\"}}}", prTitle, prReviewer, prUrl)
+		case "review_requested":
+			prTitle := pr.PullRequest.GetTitle()
+			prUrl := pr.PullRequest.GetHTMLURL()
+			prReviewer := pr.RequestedReviewer.GetLogin()
+			content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Reviewer: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"PullRequest Requeste Reviewer\",\"tag\":\"plain_text\"}}}", prTitle, prReviewer, prUrl)
 		default:
 			return
 		}
