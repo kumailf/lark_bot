@@ -127,10 +127,12 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 		receiveID, err := GetGroupID(groupName)
 		if err != nil {
 			logrus.WithError(err).Errorf("failed to get group id")
+			return
 		}
 		token, err := GetTenantAccessToken(ctx)
 		if err != nil {
 			logrus.WithError(err).Errorf("failed to get tenant access token")
+			return
 		}
 		createMsgRequest := &CreateMessageRequest{
 			ReceiveID: receiveID,
@@ -140,8 +142,10 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 		resp, err := SendMessage(ctx, token, createMsgRequest)
 		if err != nil {
 			logrus.WithError(err).Errorf("failed to send msg")
+			return
 		}
 		logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
 	}()
+
 	return nil
 }
