@@ -2,6 +2,7 @@ package biz
 
 import (
 	"context"
+	"fmt"
 	"math/rand"
 
 	"regexp"
@@ -46,7 +47,22 @@ func HandleReceiveMessageEvent(ctx context.Context, event *ReceiveMessageEvent) 
 				content = "{\"text\":\"输入格式错误\"}"
 			}
 		} else if strings.Contains(msg.Content, "/help") {
-			content = "{\"text\":\"现已支持功能: \nfunc1\nfunc2 \"}"
+			func1 := "func1"
+			func2 := "func2"
+			func3 := "func3"
+			content := fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** func1: **%v\\n** func2: **%v\\n** func3: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"New Issue\",\"tag\":\"plain_text\"}}}", func1, func2, func3)
+			createMsgRequest := &CreateMessageRequest{
+				ReceiveID: chatID,
+				Content:   content,
+				MsgType:   "interactive",
+			}
+			resp, err := SendMessage(ctx, token, createMsgRequest)
+			if err != nil {
+				logrus.WithError(err).Errorf("failed to send msg")
+				return err
+			}
+			logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
+			return nil
 		} else {
 			return nil
 		}
