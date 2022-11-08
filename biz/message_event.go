@@ -51,7 +51,7 @@ func HandleReceiveMessageEvent(ctx context.Context, event *ReceiveMessageEvent) 
 			f1 := "推送pr/issue/review等信息至指定群"
 			f2 := "@机器人触发一次接口请求(需定制)"
 			f3 := "响应群内消息/快速查询信息(需定制)"
-			content := fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** 提需求 or 意见反馈: **%v\\n** 1: **%v\\n** 2: **%v\\n** 3: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"New Issue\",\"tag\":\"plain_text\"}}}", url, f1, f2, f3)
+			content := fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** 提需求 or 意见反馈: **%v\\n** 1: **%v\\n** 2: **%v\\n** 3: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"help\",\"tag\":\"plain_text\"}}}", url, f1, f2, f3)
 			createMsgRequest := &CreateMessageRequest{
 				ReceiveID: chatID,
 				Content:   content,
