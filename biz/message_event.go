@@ -46,7 +46,7 @@ func HandleReceiveMessageEvent(ctx context.Context, event *ReceiveMessageEvent) 
 				content = "{\"text\":\"输入格式错误\"}"
 			}
 		} else if strings.Contains(msg.Content, "/help") {
-			content = "{\"text\":\"**现已支持功能: \n**func1\n**func2 \"}"
+			content = "{\"text\":\"现已支持功能: \nfunc1\nfunc2 \"}"
 		} else {
 			return nil
 		}
