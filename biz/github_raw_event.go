@@ -47,10 +47,12 @@ func HandleReceiveGithubIssueEvent(ctx context.Context, event *ReceiveGithubIssu
 			receiveID, err := GetGroupID(groupName)
 			if err != nil {
 				logrus.WithError(err).Errorf("failed to get group id")
+				return
 			}
 			token, err := GetTenantAccessToken(ctx)
 			if err != nil {
 				logrus.WithError(err).Errorf("failed to get tenant access token")
+				return
 			}
 			content := fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** Issue Title: **%v\\n** Created By: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"New Issue\",\"tag\":\"plain_text\"}}}", issueTitle, createBy, issueUrl)
 			createMsgRequest := &CreateMessageRequest{
@@ -61,6 +63,7 @@ func HandleReceiveGithubIssueEvent(ctx context.Context, event *ReceiveGithubIssu
 			resp, err := SendMessage(ctx, token, createMsgRequest)
 			if err != nil {
 				logrus.WithError(err).Errorf("failed to send msg")
+				return
 			}
 			logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
 		default:
