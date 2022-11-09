@@ -101,20 +101,20 @@ func GetGroupID(groupname string) (string, error) {
 	return "", nil
 }
 
-func GetUserIdByName(name string) string {
+func GetUserByName(name string) map[string]interface{} {
 	res, ok := utils.MGDBFindOne("lark_bot", "user", "name", name)
 	if ok {
-		return res["user_id"].(string)
+		return res
 	} else {
-		return ""
+		return nil
 	}
 }
 
-func GetUserIdByGithubName(github_name string) string {
+func GetUserByGithubName(github_name string) map[string]interface{} {
 	res, ok := utils.MGDBFindOne("lark_bot", "user", "github_name", github_name)
 	if ok {
-		return res["user_id"].(string)
+		return res
 	} else {
-		return ""
+		return nil
 	}
 }

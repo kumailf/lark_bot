@@ -158,15 +158,13 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 			prTitle := pr.PullRequest.GetTitle()
 			prUrl := pr.PullRequest.GetHTMLURL()
 			login := pr.RequestedReviewer.GetLogin()
-			user_id := GetUserIdByGithubName(login)
+			user := GetUserByGithubName(login)
 			prReviewer := ""
-			if user_id == "" {
+			if user == nil {
 				prReviewer = login
 			} else {
-				prReviewer = fmt.Sprintf(`<at user_id=\\\"%v\\\">%v</at>`, user_id, login)
+				prReviewer = fmt.Sprintf(`<at user_id=\\\"%v\\\">%v</at>`, user["user_id"].(string), user["name"].(string))
 			}
-			logrus.Infof("prReviewer == ")
-			logrus.Infof(prReviewer)
 			content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Reviewer: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"PullRequest Requeste Reviewer\",\"tag\":\"plain_text\"}}}", prTitle, prReviewer, prUrl)
 		default:
 			return
