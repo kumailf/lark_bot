@@ -170,7 +170,7 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 			if user == nil {
 				prReviewer = login
 			} else {
-				prReviewer = fmt.Sprintf(`<at id=\\\"%v\\\">%v</at>`, user["user_id"].(string), user["name"].(string))
+				prReviewer = fmt.Sprintf("<at id=\\\"%v\\\">%v</at>", user["user_id"].(string), user["name"].(string))
 			}
 			content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Reviewer: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"PullRequest Requeste Reviewer\",\"tag\":\"plain_text\"}}}", prTitle, prReviewer, prUrl)
 		default:
