@@ -15,15 +15,20 @@ func init() {
 	RepoConf = make(map[string]map[string]interface{})
 
 	for _, repo := range RepoList {
-		tmp := utils.MGDBFindOne(db, repo, "repo", repo)
-		RepoConf[repo] = tmp
+		tmp, ok := utils.MGDBFindOne(db, repo, "repo", repo)
+		if ok {
+			RepoConf[repo] = tmp
+		}
 	}
 }
 
 func UpdateRepoConf(repo string, key string, value string) {
 	flag := utils.MGDBUpdateOne(db, repo, "repo", repo, key, value)
 	if flag {
-		RepoConf[repo] = utils.MGDBFindOne(db, repo, "repo", repo)
+		repo_conf, ok := utils.MGDBFindOne(db, repo, "repo", repo)
+		if ok {
+			RepoConf[repo] = repo_conf
+		}
 	}
 }
 

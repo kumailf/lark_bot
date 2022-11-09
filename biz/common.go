@@ -9,6 +9,8 @@ import (
 	"strings"
 
 	"code.byted.org/larkim/oapi_demo/conf"
+	"code.byted.org/larkim/oapi_demo/utils"
+
 	"github.com/sirupsen/logrus"
 )
 
@@ -97,4 +99,22 @@ func GetGroupID(groupname string) (string, error) {
 	}
 	logrus.Infof("can not find group")
 	return "", nil
+}
+
+func GetUserIdByName(name string) string {
+	res, ok := utils.MGDBFindOne("lark_bot", "user", "name", name)
+	if ok {
+		return res["user_id"].(string)
+	} else {
+		return ""
+	}
+}
+
+func GetUserIdByGithubName(github_name string) string {
+	res, ok := utils.MGDBFindOne("lark_bot", "user", "github_name", github_name)
+	if ok {
+		return res["user_id"].(string)
+	} else {
+		return ""
+	}
 }
