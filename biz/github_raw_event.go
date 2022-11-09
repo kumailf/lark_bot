@@ -18,6 +18,9 @@ func HandleReceiveGithubIssueEvent(ctx context.Context, event *ReceiveGithubIssu
 	eventType := ie.Action
 	// Set Project
 	go func() {
+		if eventType != "opened" {
+			return
+		}
 		if repo_fullname == "kumailf/MyPic" || repo_fullname == "open-mmlab/mmediting" {
 			token := ""
 			project_id := ""
@@ -117,6 +120,10 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 	repo_fullname := pr.Repo.GetFullName()
 	// Set Project
 	go func() {
+		eventType := pr.GetAction()
+		if eventType != "opened" {
+			return
+		}
 		if repo_fullname == "kumailf/MyPic" || repo_fullname == "open-mmlab/mmediting" {
 			token := ""
 			project_id := ""
