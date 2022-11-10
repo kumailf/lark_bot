@@ -206,57 +206,57 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 	return nil
 }
 
-// func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPRReviewEvent) error {
-// 	logrus.Info("receive github pr review event")
-// 	re := event.Event
-// 	repo_fullname := re.Repo.GetFullName()
-// 	eventType := re.GetAction()
+func HandleReceiveGithubPRReviewEvent(ctx context.Context, event *ReceiveGithubPRReviewEvent) error {
+	logrus.Info("receive github pr review event")
+	re := event.Event
+	repo_fullname := re.Repo.GetFullName()
+	eventType := re.GetAction()
 
-// 	// Send Message To Lark Group
-// 	go func() {
-// 		var content string
-// 		switch eventType {
-// 		case "review_requested":
-// 			prTitle := re.PullRequest.GetTitle()
-// 			prUrl := re.PullRequest.GetHTMLURL()
-// 			login := re.
-// 			user := GetUserByGithubName(login)
-// 			prReviewer := ""
-// 			if user == nil {
-// 				prReviewer = login
-// 			} else {
-// 				prReviewer = fmt.Sprintf("<at id=\\\"%v\\\">%v</at>", user["user_id"].(string), user["name"].(string))
-// 			}
-// 			content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Reviewer: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"PullRequest Requeste Reviewer\",\"tag\":\"plain_text\"}}}", prTitle, prReviewer, prUrl)
-// 		default:
-// 			return
-// 		}
-// 		groupName, ok := conf.GroupMap[repo_fullname]
-// 		if !ok {
-// 			groupName = "机器人调试"
-// 		}
-// 		receiveID, err := GetGroupID(groupName)
-// 		if err != nil {
-// 			logrus.WithError(err).Errorf("failed to get group id")
-// 			return
-// 		}
-// 		token, err := GetTenantAccessToken(ctx)
-// 		if err != nil {
-// 			logrus.WithError(err).Errorf("failed to get tenant access token")
-// 			return
-// 		}
-// 		createMsgRequest := &CreateMessageRequest{
-// 			ReceiveID: receiveID,
-// 			Content:   content,
-// 			MsgType:   "interactive",
-// 		}
-// 		resp, err := SendMessage(ctx, token, createMsgRequest)
-// 		if err != nil {
-// 			logrus.WithError(err).Errorf("failed to send msg")
-// 			return
-// 		}
-// 		logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
-// 	}()
+	// Send Message To Lark Group
+	go func() {
+		var content string
+		switch eventType {
+		case "review_requested":
+			prTitle := re.PullRequest.GetTitle()
+			prUrl := re.PullRequest.GetHTMLURL()
+			login := re.Review.User.GetLogin()
+			user := GetUserByGithubName(login)
+			prReviewer := ""
+			if user == nil {
+				prReviewer = login
+			} else {
+				prReviewer = fmt.Sprintf("<at id=\\\"%v\\\">%v</at>", user["user_id"].(string), user["name"].(string))
+			}
+			content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Reviewer: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"PullRequest Review Submitted\",\"tag\":\"plain_text\"}}}", prTitle, prReviewer, prUrl)
+		default:
+			return
+		}
+		groupName, ok := conf.GroupMap[repo_fullname]
+		if !ok {
+			groupName = "机器人调试"
+		}
+		receiveID, err := GetGroupID(groupName)
+		if err != nil {
+			logrus.WithError(err).Errorf("failed to get group id")
+			return
+		}
+		token, err := GetTenantAccessToken(ctx)
+		if err != nil {
+			logrus.WithError(err).Errorf("failed to get tenant access token")
+			return
+		}
+		createMsgRequest := &CreateMessageRequest{
+			ReceiveID: receiveID,
+			Content:   content,
+			MsgType:   "interactive",
+		}
+		resp, err := SendMessage(ctx, token, createMsgRequest)
+		if err != nil {
+			logrus.WithError(err).Errorf("failed to send msg")
+			return
+		}
+		logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
+	}()
 
-// 	return nil
-// }
+	return nil
+}

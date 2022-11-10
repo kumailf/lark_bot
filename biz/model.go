@@ -480,3 +480,8 @@ type ReceiveGithubPREvent struct {
 	Header Header                    `json:"header"`
 	Event  ghclient.PullRequestEvent `json:"event"`
 }
+
+type ReceiveGithubPRReviewEvent struct {
+	Header Header                          `json:"header"`
+	Event  ghclient.PullRequestReviewEvent `json:"event"`
+}

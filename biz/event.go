@@ -182,6 +182,22 @@ func ReceiveEvent(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "ok",
 		})
+	case "review":
+		receiveGithubPRReviewEvent := &ReceiveGithubPRReviewEvent{}
+		err = json.Unmarshal([]byte(decryptStr), receiveGithubPRReviewEvent)
+		if err != nil {
+			logrus.Errorf("Unmarshal failed")
+			return
+		}
+		go func() {
+			err = HandleReceiveGithubPRReviewEvent(ctx, receiveGithubPRReviewEvent)
+			if err != nil {
+				logrus.WithError(err).Errorf("handle receive message event failed")
+			}
+		}()
+		c.JSON(200, gin.H{
+			"message": "ok",
+		})
 	default:
 		logrus.Info("unhandled event")
 		c.JSON(200, gin.H{

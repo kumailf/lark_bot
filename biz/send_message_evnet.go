@@ -23,34 +23,17 @@ func HandleReceiveSendMessageEvent(ctx context.Context, event *ReceiveSendMessag
 		logrus.WithError(err).Errorf("failed to get tenant access token")
 		return err
 	}
-	switch msg.MessageType {
-	case "interactive":
-		createMsgRequest := &CreateMessageRequest{
-			ReceiveID: receiveID,
-			Content:   content,
-			MsgType:   "interactive",
-		}
-		resp, err := SendMessage(ctx, token, createMsgRequest)
-		if err != nil {
-			logrus.WithError(err).Errorf("failed to send msg")
-			return err
-		}
-		logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
-	case "text":
-		logrus.Infof("text %v", content)
-		createMsgRequest := &CreateMessageRequest{
-			ReceiveID: receiveID,
-			Content:   content,
-			MsgType:   "text",
-		}
-		resp, err := SendMessage(ctx, token, createMsgRequest)
-		if err != nil {
-			logrus.WithError(err).Errorf("failed to send msg")
-			return err
-		}
-		logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
-	default:
-		logrus.Infof("unhandled message type, msg_type: %v", msg.MessageType)
+
+	createMsgRequest := &CreateMessageRequest{
+		ReceiveID: receiveID,
+		Content:   content,
+		MsgType:   msg.MessageType,
 	}
+	resp, err := SendMessage(ctx, token, createMsgRequest)
+	if err != nil {
+		logrus.WithError(err).Errorf("failed to send msg")
+		return err
+	}
+	logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
 	return nil
 }
