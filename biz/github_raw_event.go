@@ -44,16 +44,16 @@ func HandleReceiveGithubIssueEvent(ctx context.Context, event *ReceiveGithubIssu
 			issueTitle := ie.Issue.Title
 			createBy := ie.Issue.User.Login
 			issueUrl := ie.Issue.HTMLURL
-			groupName, ok := conf.GroupMap[repo_fullname]
 			content := fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** Issue Title: **%v\\n** Created By: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"New Issue\",\"tag\":\"plain_text\"}}}", issueTitle, createBy, issueUrl)
+			groupName, ok := conf.GroupMap[repo_fullname]
 			if !ok {
 				exgroup_webhook, ok2 := conf.ExGroupMap[repo_fullname]
 				if ok2 {
-					createExMsgRequest := &CreateExMessageRequest{
-						Content: content,
+					createExCardMsgRequest := &CreateExCardMessageRequest{
+						Card:    content,
 						MsgType: "interactive",
 					}
-					SendMessageToExGroup(exgroup_webhook, createExMsgRequest)
+					SendCardMessageToExGroup(exgroup_webhook, createExCardMsgRequest)
 					return
 				} else {
 					groupName = "机器人调试"

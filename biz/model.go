@@ -163,6 +163,11 @@ type CreateExMessageRequest struct {
 	MsgType string `json:"msg_type"`
 }
 
+type CreateExCardMessageRequest struct {
+	Card    string `json:"card"`
+	MsgType string `json:"msg_type"`
+}
+
 type CreateMessageResponse struct {
 	Code    int          `json:"code"`
 	Message string       `json:"message"`
