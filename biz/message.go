@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -513,4 +514,38 @@ func SendCardMessage(content string, repo_fullname string) {
 		return
 	}
 	logrus.Infof("succeed send msg, msg_id: %v", resp.MessageID)
+}
+
+func SendMessageToExGroup(exgroup_webhook string, createExMsgRequest *CreateExMessageRequest) {
+	url := exgroup_webhook
+	method := "POST"
+
+	reqBytes, err := json.Marshal(createExMsgRequest)
+	if err != nil {
+		logrus.Errorf("failed to marshal")
+	}
+	payload := strings.NewReader(string(reqBytes))
+
+	client := &http.Client{}
+	req, err := http.NewRequest(method, url, payload)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	req.Header.Add("Content-Type", "application/json")
+
+	res, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(body))
 }

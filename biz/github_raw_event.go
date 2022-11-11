@@ -45,8 +45,19 @@ func HandleReceiveGithubIssueEvent(ctx context.Context, event *ReceiveGithubIssu
 			createBy := ie.Issue.User.Login
 			issueUrl := ie.Issue.HTMLURL
 			groupName, ok := conf.GroupMap[repo_fullname]
+			content := fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** Issue Title: **%v\\n** Created By: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"New Issue\",\"tag\":\"plain_text\"}}}", issueTitle, createBy, issueUrl)
 			if !ok {
-				groupName = "机器人调试"
+				exgroup_webhook, ok2 := conf.ExGroupMap[repo_fullname]
+				if ok2 {
+					createExMsgRequest := &CreateExMessageRequest{
+						Content: content,
+						MsgType: "interactive",
+					}
+					SendMessageToExGroup(exgroup_webhook, createExMsgRequest)
+					return
+				} else {
+					groupName = "机器人调试"
+				}
 			}
 			receiveID, err := GetGroupID(groupName)
 			if err != nil {
@@ -58,7 +69,6 @@ func HandleReceiveGithubIssueEvent(ctx context.Context, event *ReceiveGithubIssu
 				logrus.WithError(err).Errorf("failed to get tenant access token")
 				return
 			}
-			content := fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** Issue Title: **%v\\n** Created By: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"New Issue\",\"tag\":\"plain_text\"}}}", issueTitle, createBy, issueUrl)
 			createMsgRequest := &CreateMessageRequest{
 				ReceiveID: receiveID,
 				Content:   content,

@@ -158,6 +158,11 @@ type CreateMessageRequest struct {
 	MsgType   string `json:"msg_type"`
 }
 
+type CreateExMessageRequest struct {
+	Content string `json:"content"`
+	MsgType string `json:"msg_type"`
+}
+
 type CreateMessageResponse struct {
 	Code    int          `json:"code"`
 	Message string       `json:"message"`
@@ -466,11 +471,6 @@ type SendMessageEvent struct {
 /*
 Github Event
 */
-type ReceiveGithubRawEvent struct {
-	Header Header     `json:"header"`
-	Event  IssueEvent `json:"event"`
-}
-
 type ReceiveGithubIssueEvent struct {
 	Header Header     `json:"header"`
 	Event  IssueEvent `json:"event"`
