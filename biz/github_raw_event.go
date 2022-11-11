@@ -216,7 +216,7 @@ func HandleReceiveGithubPRReviewEvent(ctx context.Context, event *ReceiveGithubP
 	go func() {
 		var content string
 		switch eventType {
-		case "review_requested":
+		case "submitted":
 			prTitle := re.PullRequest.GetTitle()
 			prUrl := re.PullRequest.GetHTMLURL()
 			login := re.Review.User.GetLogin()
