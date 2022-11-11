@@ -194,7 +194,6 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 			exgroup_webhook, ok2 := conf.ExGroupMap[repo_fullname]
 			if ok2 {
 				logrus.Infof("send msg to external group")
-				logrus.Infof
 				createExCardMsgRequest := &CreateExCardMessageRequest{
 					Card:    content,
 					MsgType: "interactive",
