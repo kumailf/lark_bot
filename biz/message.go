@@ -530,24 +530,24 @@ func SendMessageToExGroup(exgroup_webhook string, createExMsgRequest *CreateExMe
 	req, err := http.NewRequest(method, url, payload)
 
 	if err != nil {
-		fmt.Println(err)
+		logrus.WithError(err).Errorf("failed to request")
 		return
 	}
 	req.Header.Add("Content-Type", "application/json")
 
 	res, err := client.Do(req)
 	if err != nil {
-		fmt.Println(err)
+		logrus.WithError(err).Errorf("failed to request")
 		return
 	}
 	defer res.Body.Close()
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
+		logrus.WithError(err).Errorf("failed to request")
 		return
 	}
-	fmt.Println(string(body))
+	logrus.Infof(string(body))
 }
 
 func SendCardMessageToExGroup(exgroup_webhook string, createExMsgRequest *CreateExCardMessageRequest) {
