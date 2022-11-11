@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strings"
 
 	"code.byted.org/larkim/oapi_demo/conf"
 
@@ -160,7 +161,7 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 			prTitle := pr.PullRequest.GetTitle()
 			openBy := pr.PullRequest.User.GetLogin()
 			prUrl := pr.PullRequest.GetHTMLURL()
-			content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Opened By: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"New PullRequest\",\"tag\":\"plain_text\"}}}", prTitle, openBy, prUrl)
+			content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Opened By: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"New PullRequest\",\"tag\":\"plain_text\"}}}", strings.Replace(prTitle, "\"", "\\\"", -1), openBy, prUrl)
 		case "closed":
 			merged := pr.PullRequest.GetMerged()
 			if merged {
@@ -193,7 +194,7 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 			exgroup_webhook, ok2 := conf.ExGroupMap[repo_fullname]
 			if ok2 {
 				logrus.Infof("send msg to external group")
-				logrus.Infof(content)
+				logrus.Infof
 				createExCardMsgRequest := &CreateExCardMessageRequest{
 					Card:    content,
 					MsgType: "interactive",
