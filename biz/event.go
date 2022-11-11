@@ -118,22 +118,22 @@ func ReceiveEvent(c *gin.Context) {
 			"message": "ok",
 			"data":    data,
 		})
-	case "github":
-		receiveGithubEvent := &ReceiveGithubEvent{}
-		err = json.Unmarshal([]byte(decryptStr), receiveGithubEvent)
-		if err != nil {
-			logrus.Errorf("Unmarshal failed")
-			return
-		}
-		go func() {
-			err = HandleReceiveGithubEvent(ctx, receiveGithubEvent)
-			if err != nil {
-				logrus.WithError(err).Errorf("handle receive message event failed")
-			}
-		}()
-		c.JSON(200, gin.H{
-			"message": "ok",
-		})
+	// case "github":
+	// 	receiveGithubEvent := &ReceiveGithubEvent{}
+	// 	err = json.Unmarshal([]byte(decryptStr), receiveGithubEvent)
+	// 	if err != nil {
+	// 		logrus.Errorf("Unmarshal failed")
+	// 		return
+	// 	}
+	// 	go func() {
+	// 		err = HandleReceiveGithubEvent(ctx, receiveGithubEvent)
+	// 		if err != nil {
+	// 			logrus.WithError(err).Errorf("handle receive message event failed")
+	// 		}
+	// 	}()
+	// 	c.JSON(200, gin.H{
+	// 		"message": "ok",
+	// 	})
 	case "sendMessage":
 		receiveSendMessageEvent := &ReceiveSendMessageEvent{}
 		err = json.Unmarshal([]byte(decryptStr), receiveSendMessageEvent)
