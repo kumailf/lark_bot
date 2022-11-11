@@ -45,7 +45,7 @@ func HandleReceiveGithubIssueEvent(ctx context.Context, event *ReceiveGithubIssu
 			issueTitle := ie.Issue.Title
 			createBy := ie.Issue.User.Login
 			issueUrl := ie.Issue.HTMLURL
-			content := fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** Issue Title: **%v\\n** Created By: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"New Issue\",\"tag\":\"plain_text\"}}}", issueTitle, createBy, issueUrl)
+			content := fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** Issue Title: **%v\\n** Created By: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"New Issue\",\"tag\":\"plain_text\"}}}", strings.Replace(issueTitle, "\"", "\\\"", -1), createBy, issueUrl)
 			groupName, ok := conf.GroupMap[repo_fullname]
 			if !ok {
 				exgroup_webhook, ok2 := conf.ExGroupMap[repo_fullname]
@@ -109,7 +109,7 @@ func HandleReceiveGithubIssueEvent(ctx context.Context, event *ReceiveGithubIssu
 			logrus.WithError(err).Errorf("failed to get tenant access token")
 			return
 		}
-		content := fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** Issue Title: **%v\\n** Created By: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"test func\",\"tag\":\"plain_text\"}}}", issueTitle, createBy, issueUrl)
+		content := fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** Issue Title: **%v\\n** Created By: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"test func\",\"tag\":\"plain_text\"}}}", strings.Replace(issueTitle, "\"", "\\\"", -1), createBy, issueUrl)
 		createMsgRequest := &CreateMessageRequest{
 			ReceiveID: receiveID,
 			Content:   content,
@@ -169,7 +169,7 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 				openBy := pr.PullRequest.User.GetLogin()
 				mergedBy := pr.PullRequest.MergedBy.GetLogin()
 				prUrl := pr.PullRequest.GetHTMLURL()
-				content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Opened By: **%v\\n** Merged By: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"PullRequest Merged\",\"tag\":\"plain_text\"}}}", prTitle, openBy, mergedBy, prUrl)
+				content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Opened By: **%v\\n** Merged By: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"PullRequest Merged\",\"tag\":\"plain_text\"}}}", strings.Replace(prTitle, "\"", "\\\"", -1), openBy, mergedBy, prUrl)
 			} else {
 				return
 			}
@@ -184,7 +184,7 @@ func HandleReceiveGithubPREvent(ctx context.Context, event *ReceiveGithubPREvent
 			} else {
 				prReviewer = fmt.Sprintf("<at id=\\\"%v\\\">%v</at>", user["user_id"].(string), user["name"].(string))
 			}
-			content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Reviewer: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"Add PR Reviewer\",\"tag\":\"plain_text\"}}}", prTitle, prReviewer, prUrl)
+			content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Reviewer: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"Add PR Reviewer\",\"tag\":\"plain_text\"}}}", strings.Replace(prTitle, "\"", "\\\"", -1), prReviewer, prUrl)
 		default:
 			return
 		}
@@ -252,7 +252,7 @@ func HandleReceiveGithubPRReviewEvent(ctx context.Context, event *ReceiveGithubP
 			} else {
 				prReviewer = fmt.Sprintf("<at id=\\\"%v\\\">%v</at>", user["user_id"].(string), user["name"].(string))
 			}
-			content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Reviewer: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"PullRequest Review Submitted\",\"tag\":\"plain_text\"}}}", prTitle, prReviewer, prUrl)
+			content = fmt.Sprintf("{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"tag\":\"div\",\"text\":{\"content\":\"** PR Title: **%v\\n** Reviewer: **%v\\n** Link: **%v\",\"tag\":\"lark_md\"}}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"PullRequest Review Submitted\",\"tag\":\"plain_text\"}}}", strings.Replace(prTitle, "\"", "\\\"", -1), prReviewer, prUrl)
 		default:
 			return
 		}
